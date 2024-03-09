@@ -2,9 +2,9 @@
 
 Submitted by: **Frankelly Guzman**
 
-This web app: **insert description**
+This web app: **This app was created as a fun trivia flashcard game about Akira Toriyama. Following his passing, I hope you are able to enjoy some fun facts about him and some of his amazing work.**
 
-Time spent: **3** hours spent in total
+Time spent: **1** hours spent in total
 
 ## Required Features
 
