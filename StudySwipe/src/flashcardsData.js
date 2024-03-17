@@ -6,56 +6,52 @@ const flashcardsData = [
   },
   {
     question: "When and where was Akira Toriyama born?",
-    answer: "April 5, 1955, in Nagoya, Aichi Prefecture, Japan",
+    answer: "April 5, 1955, Japan",
     category: "Bio",
   },
   {
-    question: "What are some of Akira Toriyamas notable works?",
-    answer: "Dragon Ball, Dr. Slump, Dragon Quest series",
+    question: "What are some of Akira Toriyama's notable works?",
+    answer: "Dragon Ball, Dr. Slump",
     category: "Anime",
   },
   {
-    question: "What influenced Akira Toriyamas art style?",
-    answer: "Osamu Tezukas work, Walt Disneys animations",
+    question: "What influenced Akira Toriyama's art style?",
+    answer: "Tezuka, Disney",
     category: "Manga",
   },
   {
-    question: "How would you describe Akira Toriyamas art style?",
-    answer:
-      "Characterized by rounded designs, expressive faces, and dynamic action scenes.",
+    question: "How would you describe Akira Toriyama's art style?",
+    answer: "Rounded designs, expressive faces",
     category: "Manga",
   },
   {
     question: "Has Akira Toriyama won any awards?",
-    answer: "Yes, including the Shogakukan Manga Award and the Eisner Award.",
+    answer: "Yes, Shogakukan Manga Award",
     category: "Bio",
   },
   {
     question: "What impact did Dragon Ball have on popular culture?",
-    answer:
-      "It became one of the most successful and influential manga and anime series worldwide.",
+    answer: "Influential manga and anime series",
     category: "Anime",
   },
   {
     question: "Has Akira Toriyama collaborated with other artists or creators?",
-    answer:
-      "Yes, he collaborated with artists like Masakazu Katsura and Eiichiro Oda.",
+    answer: "Yes, Katsura, Oda",
     category: "Manga",
   },
   {
     question: "Did Akira Toriyama design characters for any video games?",
-    answer: "Yes, he designed characters for the Dragon Quest series.",
+    answer: "Yes, Dragon Quest series",
     category: "Anime",
   },
   {
-    question: "Who is Akira Toriyamas favorite character?",
+    question: "Who is Akira Toriyama's favorite character?",
     answer: "Piccolo",
     category: "Anime",
   },
   {
     question: "What inspired Akira Toriyama to pursue a career in manga?",
-    answer:
-      "Akira Toriyama was inspired by the works of Osamu Tezuka and Walt Disney, which ignited his passion for drawing and storytelling. His love for comics and animation drove him to pursue a career in manga.",
+    answer: "Tezuka, Disney, passion for drawing",
     category: "Bio",
   },
   // Add more cards as needed
