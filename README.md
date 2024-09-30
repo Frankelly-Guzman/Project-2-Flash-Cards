@@ -1,8 +1,8 @@
-# Web Development Project 2 - _StudySwipe_
+# Web Development Project 2 - _Flash Cards_
 
 Submitted by: **Frankelly Guzman**
 
-This web app: **This app was created as a fun trivia flashcard game about Akira Toriyama. Following his passing, I hope you are able to enjoy some fun facts about him and some of his amazing work.**
+This web app: **This app iterates through an object of flash card questions and allows you to study on random facts**
 
 Time spent: **1** hours spent in total
 
@@ -18,9 +18,9 @@ The following **required** functionality is completed:
 
 The following **optional** features are implemented:
 
-- [ ] Cards contains images in addition to or in place of text
+- [x] Cards contains images in addition to or in place of text
 - [ ] Cards have different visual styles such as color based on their category
-- [ ] _visual style implemented_
+  - [ ] _visual style implemented_
 
 The following **additional** features are implemented:
 
@@ -30,16 +30,9 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented required features:
 
-<img src='https://i.imgur.com/nHCQD8N.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='example.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-<!-- Replace this with whatever GIF tool you used! -->
-
-GIF created with ScreenToGif
-
-<!-- Recommended tools:
-[Kap](https://getkap.co/) for macOS
-[ScreenToGif](https://www.screentogif.com/) for Windows
-[peek](https://github.com/phw/peek) for Linux. -->
+GIF created with GIPHY CAPTURE
 
 ## Notes
 
