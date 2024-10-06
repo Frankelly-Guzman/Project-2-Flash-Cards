@@ -6,6 +6,8 @@ const FlashCard = ({ question, answer, image, isHidden, setIsHidden }) => {
     setIsHidden(!isHidden);
   };
 
+  console.log(image);
+
   return (
     <motion.div
       className="flashCard p-6 bg-slate-800 rounded-lg shadow-md text-center transform transition-transform duration-300 hover:scale-105 hover:bg-slate-700 min-w-[300px] min-h-[200px] flex justify-center items-center"

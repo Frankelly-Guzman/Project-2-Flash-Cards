@@ -1,24 +1,116 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion"; // Framer Motion for animation
 import FlashCard from "./components/FlashCard";
 import qaArray from "../flashCards";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaRandom } from "react-icons/fa"; // Added shuffle icon
 
 const App = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHidden, setIsHidden] = useState(true); // State to manage question/answer visibility
+  const [isHidden, setIsHidden] = useState(true);
+  const [userGuess, setUserGuess] = useState("");
+  const [feedback, setFeedback] = useState(null);
+  const [inputStyle, setInputStyle] = useState("");
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [score, setScore] = useState(0); // Track total correct answers
+  const [streak, setStreak] = useState(0); // Track current streak
+  const [longestStreak, setLongestStreak] = useState(0); // Track longest streak
+  const [masteredCards, setMasteredCards] = useState([]); // Track mastered cards
+  const [shuffledCards, setShuffledCards] = useState([...qaArray]); // Copy of the original array for shuffling
 
-  const getRandomIndex = () => {
-    return Math.floor(Math.random() * qaArray.length);
-  };
-
+  // Sequential navigation logic
   const goToPreviousCard = () => {
-    setCurrentIndex(getRandomIndex());
-    setIsHidden(true); // Reset to show the question first
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    } else {
+      setCurrentIndex(shuffledCards.length - 1); // Loop to last card if at the start
+    }
+    resetCardState();
   };
 
   const goToNextCard = () => {
-    setCurrentIndex(getRandomIndex());
-    setIsHidden(true); // Reset to show the question first
+    if (currentIndex < shuffledCards.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      setCurrentIndex(0); // Loop to the first card if at the end
+    }
+    resetCardState();
+  };
+
+  // Reset card state when navigating
+  const resetCardState = () => {
+    setIsHidden(true);
+    setFeedback(null);
+    setUserGuess("");
+    setInputStyle("");
+    setIsCorrect(false);
+  };
+
+  // Shuffle cards
+  const shuffleCards = () => {
+    const shuffled = [...shuffledCards].sort(() => 0.5 - Math.random());
+    setShuffledCards(shuffled);
+    setCurrentIndex(0); // Reset to the first card after shuffling
+    resetCardState();
+  };
+
+  // Handle the user guessing an answer
+  const handleGuessChange = (e) => {
+    setUserGuess(e.target.value);
+  };
+
+  // Check answer correctness and update score/streak
+  const checkAnswer = () => {
+    const correctAnswer = shuffledCards[currentIndex].answer.toLowerCase();
+    const guess = userGuess.toLowerCase().trim();
+
+    if (correctAnswer === guess) {
+      setFeedback("Correct! 🎉");
+      setInputStyle("correct");
+      setIsCorrect(true);
+      setScore(score + 1);
+      setStreak(streak + 1);
+      if (streak + 1 > longestStreak) {
+        setLongestStreak(streak + 1);
+      }
+    } else if (correctAnswer.includes(guess) && guess !== "") {
+      setFeedback("Close enough! 👍");
+      setInputStyle("close");
+      setIsCorrect(false);
+    } else {
+      setFeedback("Incorrect, try again! ❌");
+      setInputStyle("incorrect");
+      setStreak(0); // Reset streak on incorrect answer
+      setIsCorrect(false);
+    }
+  };
+
+  // Mark card as mastered
+  const markAsMastered = () => {
+    const currentCard = shuffledCards[currentIndex];
+    setMasteredCards([...masteredCards, currentCard]);
+    setShuffledCards(
+      shuffledCards.filter((card, index) => index !== currentIndex)
+    );
+    if (shuffledCards.length > 1) {
+      goToNextCard();
+    } else {
+      setFeedback("All cards mastered!");
+    }
+  };
+
+  // Get the input box styling based on feedback
+  const getInputClassName = () => {
+    let baseStyle = "p-2 rounded border text-black ";
+    switch (inputStyle) {
+      case "correct":
+        return `${baseStyle} bg-green-200 border-green-500`;
+      case "close":
+        return `${baseStyle} bg-yellow-200 border-yellow-500`;
+      case "incorrect":
+        return `${baseStyle} bg-red-200 border-red-500`;
+      default:
+        return `${baseStyle} bg-white border-gray-300`;
+    }
   };
 
   return (
@@ -28,39 +120,80 @@ const App = () => {
         Are you smarter than a fifth grader?!
       </h2>
       <h3 className="text-lg font-semibold mb-4">
-        Total Cards: {qaArray.length}
+        Total Cards: {shuffledCards.length}
       </h3>
-      {/* Display current flashcard */}
+
+      {/* Score and Streak */}
+      <div className="mb-4">
+        <p className="text-lg">Score: {score}</p>
+        <p className="text-lg">Streak: {streak}</p>
+        <p className="text-lg">Longest Streak: {longestStreak}</p>
+      </div>
+
+      {/* Flashcard */}
       <div className="flashCardList mb-8">
         <FlashCard
-          question={qaArray[currentIndex].question}
-          answer={qaArray[currentIndex].answer}
-          image={qaArray[currentIndex].image}
+          question={shuffledCards[currentIndex].question}
+          answer={shuffledCards[currentIndex].answer}
+          image={shuffledCards[currentIndex].image}
           isHidden={isHidden}
-          setIsHidden={setIsHidden} // Pass function to toggle visibility
+          setIsHidden={setIsHidden}
         />
       </div>
 
-      {/* Navigation buttons */}
-      <div className="flex space-x-4">
-        {/* Back Button */}
+      {/* User input form */}
+      <div className="mb-4">
+        <motion.input
+          type="text"
+          value={userGuess}
+          onChange={handleGuessChange}
+          placeholder="Enter your guess"
+          className={`${getInputClassName()}`}
+          animate={isCorrect ? { scale: [1, 1.2, 1] } : {}}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+        />
+        <button
+          onClick={checkAnswer}
+          className="ml-2 p-2 bg-blue-500 hover:bg-blue-400 text-white rounded"
+        >
+          Submit
+        </button>
+      </div>
+
+      {/* Feedback */}
+      {feedback && <p className="mb-4 text-lg font-semibold">{feedback}</p>}
+
+      {/* Buttons */}
+      <div className="flex space-x-4 mb-4">
         <button
           onClick={goToPreviousCard}
-          disabled={currentIndex === 0}
-          className={`p-3 rounded-full bg-slate-500 hover:bg-slate-400 disabled:bg-slate-600 disabled:cursor-not-allowed`}
+          className="p-3 rounded-full bg-slate-500 hover:bg-slate-400"
         >
           <FaArrowLeft size={24} />
         </button>
 
-        {/* Forward Button */}
         <button
           onClick={goToNextCard}
-          disabled={currentIndex === qaArray.length - 1}
-          className={`p-3 rounded-full bg-slate-500 hover:bg-slate-400 disabled:bg-slate-600 disabled:cursor-not-allowed`}
+          className="p-3 rounded-full bg-slate-500 hover:bg-slate-400"
         >
           <FaArrowRight size={24} />
         </button>
+
+        <button
+          onClick={shuffleCards}
+          className="p-3 rounded-full bg-slate-500 hover:bg-slate-400"
+        >
+          <FaRandom size={24} />
+        </button>
       </div>
+
+      {/* Mark as Mastered */}
+      <button
+        onClick={markAsMastered}
+        className="p-2 bg-green-500 hover:bg-green-400 text-white rounded"
+      >
+        Mark as Mastered
+      </button>
     </div>
   );
 };
